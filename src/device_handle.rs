@@ -400,6 +400,7 @@ impl<'a> DeviceHandle<'a> {
     ///
     /// This function returns a list of languages that can be used to read the device's string
     /// descriptors.
+    #[allow(unused_mut)]
     pub fn read_languages(&self, timeout: Duration) -> ::Result<Vec<Language>> {
         let mut buf = Vec::<u8>::with_capacity(256);
 
@@ -427,6 +428,7 @@ impl<'a> DeviceHandle<'a> {
     /// Reads a string descriptor from the device.
     ///
     /// `language` should be one of the languages returned from [`read_languages`](#method.read_languages).
+    #[allow(unused_mut)]
     pub fn read_string_descriptor(&self, language: Language, index: u8, timeout: Duration) -> ::Result<String> {
         let mut buf = Vec::<u8>::with_capacity(256);
 
@@ -490,6 +492,10 @@ impl<'a> DeviceHandle<'a> {
             None => Err(Error::InvalidParam),
             Some(n) => self.read_string_descriptor(language, n, timeout)
         }
+    }
+
+    pub fn native_handle(&mut self) -> *mut libusb_device_handle {
+        self.handle
     }
 }
 
